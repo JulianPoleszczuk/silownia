@@ -2,35 +2,32 @@ import customtkinter as ctk
 import json
 import os
 from CTkTable import CTkTable
-from questionary import password
-
-CZLONKOWIE = "czlonkowie.json"
-
-#wczytywanie pliku json
+PLIK_JSON = "czlonkowie.json"
+ctk.set_appearance_mode("dark")
+ctk.set_default_color_theme("blue")
 def wczytaj_dane():
-    if os.path.exists(CZLONKOWIE):
-        with open(CZLONKOWIE, "r", encoding="utf-8") as f:
+    if os.path.exists(PLIK_JSON):
+        with open(PLIK_JSON, "r", encoding="utf-8") as f:
             try:
                 return json.load(f)
             except:
                 return []
     return []
 def zapisz_dane(lista):
-    with open(CZLONKOWIE, "w", encoding="utf-8") as f:
+    with open(PLIK_JSON, "w", encoding="utf-8") as f:
         json.dump(lista, f, indent=4, ensure_ascii=False)
 def dodaj_osobe_json(nowy):
     lista = wczytaj_dane()
     lista.append(nowy)
     zapisz_dane(lista)
-# tworzenie tabeli wszystkich czlonkow
-
+root = ctk.CTk()
+root.geometry("1280x720")
+root.title("Menadżer Członkostwa w Siłowni")
+root.configure(fg_color="#07111F")
 def lista_osob():
-    global tabela
-
+    global frame_tabela, tabela
     osoby = wczytaj_dane()
-
     dane = [["Imię", "Nazwisko", "Rola", "Status"]]
-
     for osoba in osoby:
         dane.append([
             osoba["imie"],
@@ -40,41 +37,59 @@ def lista_osob():
         ])
 
     try:
-        tabela.destroy()
+        frame_tabela.destroy()
     except:
         pass
+    frame_tabela = ctk.CTkFrame(
+        root,
+        width=820,
+        height=420,
+        corner_radius=18,
+        fg_color="#111827"
+    )
+    frame_tabela.place(relx=0.5, rely=0.52, anchor="center")
+    scroll = ctk.CTkScrollableFrame(
+        frame_tabela,
+        width=780,
+        height=380,
+        fg_color="transparent"
+    )
+    scroll.place(relx=0.5, rely=0.5, anchor="center")
 
     tabela = CTkTable(
-        master=root,
+        master=scroll,
         values=dane
     )
-    tabela.pack(pady=30)
-#okno dodawanie osob do json
+    tabela.pack()
 def okno_dodawania():
     win = ctk.CTkToplevel(root)
+    win.geometry("400x420")
     win.title("Dodaj osobę")
-    win.geometry("350x350")
+    win.configure(fg_color="#111827")
 
-    ctk.CTkLabel(win, text="Imię").pack(pady=5)
-    entry_imie = ctk.CTkEntry(win)
-    entry_imie.pack(pady=5)
+    ctk.CTkLabel(
+        win,
+        text="Dodaj nowego użytkownika",
+        font=("Segoe UI", 24, "bold")
+    ).pack(pady=20)
 
-    ctk.CTkLabel(win, text="Nazwisko").pack(pady=5)
-    entry_nazwisko = ctk.CTkEntry(win)
-    entry_nazwisko.pack(pady=5)
+    entry_imie = ctk.CTkEntry(win, width=250, placeholder_text="Imię")
+    entry_imie.pack(pady=10)
 
-    ctk.CTkLabel(win, text="Rola").pack(pady=5)
+    entry_nazwisko = ctk.CTkEntry(win, width=250, placeholder_text="Nazwisko")
+    entry_nazwisko.pack(pady=10)
+
     combo_rola = ctk.CTkComboBox(
         win,
+        width=250,
         values=["Admin", "Trener", "Klient"]
     )
-    combo_rola.pack(pady=5)
+    combo_rola.pack(pady=10)
     combo_rola.set("Klient")
     def zapisz():
         imie = entry_imie.get()
         nazwisko = entry_nazwisko.get()
         rola = combo_rola.get()
-
         if imie and nazwisko:
             nowy = {
                 "imie": imie,
@@ -86,21 +101,32 @@ def okno_dodawania():
             dodaj_osobe_json(nowy)
             lista_osob()
             win.destroy()
+
     ctk.CTkButton(
         win,
         text="Zapisz",
+        width=220,
+        height=42,
+        corner_radius=12,
+        fg_color="#2D7DFF",
+        hover_color="#1F6DF2",
         command=zapisz
-    ).pack(pady=20)
+    ).pack(pady=25)
 def okno_usuwania():
     win = ctk.CTkToplevel(root)
+    win.geometry("400x350")
     win.title("Usuń osobę")
-    win.geometry("350x250")
-    ctk.CTkLabel(win, text="Imię").pack(pady=5)
-    entry_imie = ctk.CTkEntry(win)
-    entry_imie.pack(pady=5)
-    ctk.CTkLabel(win, text="Nazwisko").pack(pady=5)
-    entry_nazwisko = ctk.CTkEntry(win)
-    entry_nazwisko.pack(pady=5)
+    win.configure(fg_color="#111827")
+
+    ctk.CTkLabel(
+        win,
+        text="Usuń użytkownika",
+        font=("Segoe UI", 24, "bold")
+    ).pack(pady=20)
+    entry_imie = ctk.CTkEntry(win, width=250, placeholder_text="Imię")
+    entry_imie.pack(pady=10)
+    entry_nazwisko = ctk.CTkEntry(win, width=250, placeholder_text="Nazwisko")
+    entry_nazwisko.pack(pady=10)
     def usun():
         imie = entry_imie.get()
         nazwisko = entry_nazwisko.get()
@@ -112,53 +138,73 @@ def okno_usuwania():
                 and osoba["nazwisko"].lower() == nazwisko.lower()
             )
         ]
+
         zapisz_dane(nowa_lista)
         lista_osob()
         win.destroy()
-
     ctk.CTkButton(
         win,
         text="Usuń",
+        width=220,
+        height=42,
+        corner_radius=12,
+        fg_color="#FF3B3B",
+        hover_color="#D82E2E",
         command=usun
-    ).pack(pady=20)
+    ).pack(pady=25)
 def wyloguj():
     root.destroy()
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
-root = ctk.CTk()
-root = ctk.CTk(fg_color="#0B0F17")
-root.title("Menadżer Członkostwa w Siłowni")
-root.geometry("1024x768")
 ctk.CTkLabel(
     root,
     text="Panel Admina",
-    font=("Arial", 28, "bold")
-).pack(pady=20)
+    font=("Segoe UI", 38, "bold"),
+    text_color="white"
+).place(relx=0.5, rely=0.07, anchor="center")
 
+#przycisk do dodawania ludzi
 ctk.CTkButton(
     root,
     text="Dodaj osobę",
-    width=200,
+    width=220,
+    height=42,
+    corner_radius=12,
+    fg_color="#2D7DFF",
+    hover_color="#1F6DF2",
+    font=("Segoe UI", 16, "bold"),
     command=okno_dodawania
-).pack(pady=10)
-
+).place(relx=0.40, rely=0.18, anchor="center")
+#przycisk od usuwania osoby
 ctk.CTkButton(
     root,
     text="Usuń osobę",
-    width=200,
+    width=220,
+    height=42,
+    corner_radius=12,
+    fg_color="#2D7DFF",
+    hover_color="#1F6DF2",
+    font=("Segoe UI", 16, "bold"),
     command=okno_usuwania
-).pack(pady=10)
+).place(relx=0.60, rely=0.18, anchor="center")
+
+#wylogowywanie się
 ctk.CTkButton(
     root,
-    text="Wyloguj sie",
-    width=125,
-    fg_color="#0B0F17",
-    text_color="red",
-    border_color="red",
+    text="Wyloguj",
+    width=130,
+    height=38,
+    corner_radius=10,
+    fg_color="transparent",
     border_width=2,
+    border_color="#FF3B3B",
+    text_color="#FF3B3B",
+    hover_color="#301010",
+    font=("Segoe UI", 14, "bold"),
     command=wyloguj
-).place(x=10,y=700)
-
+).place(relx=0.06, rely=0.95, anchor="center")
+#statystyki
+ile_osob = ctk.CTkLabel(
+    root,
+    text="Wszyscy członkowie"
+).place(relx=0.9, rely=0.15, anchor="center")
 lista_osob()
-
 root.mainloop()

@@ -1,12 +1,122 @@
 [
-    {
-        "imie": "gsdfgf",
-        "nazwisko": "gdf",
-        "status": "Aktywny"
-    },
-    {
-        "imie": "fsdfsadf",
-        "nazwisko": "safasdf",
-        "status": "Aktywny"
-    }
+  {
+    "imie": "Tomasz",
+    "nazwisko": "Stepaniuk",
+    "rola": "Admin",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Anna",
+    "nazwisko": "Kowalska",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Piotr",
+    "nazwisko": "Nowak",
+    "rola": "Trener",
+    "status": "Nieaktywny"
+  },
+  {
+    "imie": "Katarzyna",
+    "nazwisko": "Wiśniewska",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Marek",
+    "nazwisko": "Wójcik",
+    "rola": "Admin",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Ewa",
+    "nazwisko": "Kamińska",
+    "rola": "Trener",
+    "status": "Nieaktywny"
+  },
+  {
+    "imie": "Paweł",
+    "nazwisko": "Lewandowski",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Magdalena",
+    "nazwisko": "Zielińska",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Jakub",
+    "nazwisko": "Szymański",
+    "rola": "Trener",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Joanna",
+    "nazwisko": "Woźniak",
+    "rola": "Klient",
+    "status": "Nieaktywny"
+  },
+  {
+    "imie": "Karol",
+    "nazwisko": "Dąbrowski",
+    "rola": "Admin",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Natalia",
+    "nazwisko": "Kozłowska",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Łukasz",
+    "nazwisko": "Jankowski",
+    "rola": "Trener",
+    "status": "Nieaktywny"
+  },
+  {
+    "imie": "Agnieszka",
+    "nazwisko": "Mazur",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Damian",
+    "nazwisko": "Krawczyk",
+    "rola": "Admin",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Monika",
+    "nazwisko": "Piotrowska",
+    "rola": "Trener",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Sebastian",
+    "nazwisko": "Grabowski",
+    "rola": "Klient",
+    "status": "Nieaktywny"
+  },
+  {
+    "imie": "Patrycja",
+    "nazwisko": "Pawlak",
+    "rola": "Klient",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Mateusz",
+    "nazwisko": "Michalski",
+    "rola": "Trener",
+    "status": "Aktywny"
+  },
+  {
+    "imie": "Paulina",
+    "nazwisko": "Król",
+    "rola": "Admin",
+    "status": "Nieaktywny"
+  }
 ]
