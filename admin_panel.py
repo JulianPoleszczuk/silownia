@@ -47,7 +47,7 @@ def lista_osob():
         corner_radius=18,
         fg_color="#111827"
     )
-    frame_tabela.place(relx=0.5, rely=0.52, anchor="center")
+    frame_tabela.place(relx=0.43, rely=0.52, anchor="center")
     scroll = ctk.CTkScrollableFrame(
         frame_tabela,
         width=780,
@@ -100,6 +100,7 @@ def okno_dodawania():
 
             dodaj_osobe_json(nowy)
             lista_osob()
+            licznik()
             win.destroy()
 
     ctk.CTkButton(
@@ -141,6 +142,7 @@ def okno_usuwania():
 
         zapisz_dane(nowa_lista)
         lista_osob()
+        licznik()
         win.destroy()
     ctk.CTkButton(
         win,
@@ -154,6 +156,8 @@ def okno_usuwania():
     ).pack(pady=25)
 def wyloguj():
     root.destroy()
+def licznik():
+    ile_osob_licznik.configure(text=str(len(wczytaj_dane())))
 ctk.CTkLabel(
     root,
     text="Panel Admina",
@@ -172,7 +176,7 @@ ctk.CTkButton(
     hover_color="#1F6DF2",
     font=("Segoe UI", 16, "bold"),
     command=okno_dodawania
-).place(relx=0.40, rely=0.18, anchor="center")
+).place(relx=0.34, rely=0.18, anchor="center")
 #przycisk od usuwania osoby
 ctk.CTkButton(
     root,
@@ -184,7 +188,7 @@ ctk.CTkButton(
     hover_color="#1F6DF2",
     font=("Segoe UI", 16, "bold"),
     command=okno_usuwania
-).place(relx=0.60, rely=0.18, anchor="center")
+).place(relx=0.52, rely=0.18, anchor="center")
 
 #wylogowywanie się
 ctk.CTkButton(
@@ -202,9 +206,31 @@ ctk.CTkButton(
     command=wyloguj
 ).place(relx=0.06, rely=0.95, anchor="center")
 #statystyki
-ile_osob = ctk.CTkLabel(
+kafelek = ctk.CTkFrame(
     root,
-    text="Wszyscy członkowie"
-).place(relx=0.9, rely=0.15, anchor="center")
+    width=240,
+    height=130,
+    corner_radius=18,
+
+    fg_color="transparent",
+    border_width=2,
+    border_color="#2D7DFF"
+)
+kafelek.place(relx=0.88, rely=0.18, anchor="center")
+
+ctk.CTkLabel(
+    kafelek,
+    text="Wszyscy członkowie",
+    font=("Segoe UI", 18),
+    text_color="white"
+).place(relx=0.5, rely=0.30, anchor="center")
+ile_osob_licznik = ctk.CTkLabel(
+    kafelek,
+    text="",
+    font=("Segoe UI", 34, "bold"),
+    text_color="#2D7DFF"
+)
+licznik()
+ile_osob_licznik.place(relx=0.5, rely=0.68, anchor="center")
 lista_osob()
 root.mainloop()
