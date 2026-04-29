@@ -2,6 +2,7 @@ import customtkinter as ctk
 import json
 import os
 from CTkTable import CTkTable
+from questionary import password
 
 CZLONKOWIE = "czlonkowie.json"
 
@@ -122,11 +123,10 @@ def okno_usuwania():
     ).pack(pady=20)
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
-
 root = ctk.CTk()
+root = ctk.CTk(fg_color="#0B0F17")
 root.title("Menadżer Członkostwa w Siłowni")
 root.geometry("1024x768")
-
 ctk.CTkLabel(
     root,
     text="Panel Admina",
@@ -146,6 +146,15 @@ ctk.CTkButton(
     width=200,
     command=okno_usuwania
 ).pack(pady=10)
+ctk.CTkButton(
+    root,
+    text="Wyloguj sie",
+    width=125,
+    fg_color="#0B0F17",
+    text_color="red",
+    border_color="red",
+    border_width=2
+).place(x=10,y=700)
 
 lista_osob()
 
