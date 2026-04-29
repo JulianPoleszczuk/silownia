@@ -121,6 +121,8 @@ def okno_usuwania():
         text="Usuń",
         command=usun
     ).pack(pady=20)
+def wyloguj():
+    root.destroy()
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 root = ctk.CTk()
@@ -153,7 +155,8 @@ ctk.CTkButton(
     fg_color="#0B0F17",
     text_color="red",
     border_color="red",
-    border_width=2
+    border_width=2,
+    command=wyloguj
 ).place(x=10,y=700)
 
 lista_osob()
