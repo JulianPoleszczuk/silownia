@@ -20,8 +20,13 @@ def zapisz_wybor():
     historia.append(nowy_wpis)
     with open(nazwa_pliku, "w", encoding="utf-8") as plik:
         json.dump(historia, plik, indent=4, ensure_ascii=False)
+def zmiana_motywu():
+    tryb = ctk.get_appearance_mode()
+    if tryb == "Dark":
+        ctk.set_appearance_mode("Light")
+    else:
+        ctk.set_appearance_mode("Dark")
 
-    print("Zapisano do historii:", odpowiedz)
 root = ctk.CTk()
 root.geometry("1024x768")
 root.title("Siłownia Sahur")
@@ -39,7 +44,6 @@ kafelek_ankieta.place(relx=0.88, rely=0.18, anchor="center")
 ctk.CTkLabel(
     kafelek_ankieta, text="Czy byłeś dzisiaj na siłowni?",
     font=("Segoe UI", 15),
-    text_color="white"
 ).place(relx=0.5, rely=0.25, anchor="center")
 wybor_var = ctk.IntVar(value=0)
 przycisk_tak = ctk.CTkRadioButton(
@@ -60,4 +64,10 @@ przycisk_nie = ctk.CTkRadioButton(
     width=80
 )
 przycisk_nie.place(relx=0.75, rely=0.65, anchor="center")
+zmiana_koloru = ctk.CTkButton(
+    root,
+    text="Zmień motyw",
+    command=zmiana_motywu
+)
+zmiana_koloru.place(relx=0.10, rely=0.95, anchor="center")
 root.mainloop()
