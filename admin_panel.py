@@ -1,6 +1,9 @@
 import customtkinter as ctk
 import json
 import os
+import hashlib
+import random
+import string
 from CTkTable import CTkTable
 PLIK_JSON = "czlonkowie.json"
 ctk.set_appearance_mode("dark")
@@ -86,22 +89,31 @@ def okno_dodawania():
     )
     combo_rola.pack(pady=10)
     combo_rola.set("Klient")
+
     def zapisz():
         imie = entry_imie.get()
         nazwisko = entry_nazwisko.get()
         rola = combo_rola.get()
         if imie and nazwisko:
+            lista = wczytaj_dane()
+            login = generuj_login(imie, nazwisko, lista)
+            haslo_plain = generuj_haslo()
+            haslo_hash = hash_hasla(haslo_plain)
+
             nowy = {
                 "imie": imie,
                 "nazwisko": nazwisko,
                 "rola": rola,
-                "status": "Aktywny"
+                "status": "Aktywny",
+                "login": login,
+                "haslo": haslo_hash
             }
 
             dodaj_osobe_json(nowy)
             lista_osob()
             licznik()
             win.destroy()
+            pokaz_dane_logowania(login, haslo_plain)
 
     ctk.CTkButton(
         win,
@@ -164,7 +176,29 @@ ctk.CTkLabel(
     font=("Segoe UI", 38, "bold"),
     text_color="white"
 ).place(relx=0.5, rely=0.07, anchor="center")
+def generuj_login(imie, nazwisko, lista):
+    base = (imie[0] + nazwisko).lower()
+    login = base
+    i = 1
 
+    while any(osoba.get("login") == login for osoba in lista):
+        login = f"{base}{i}"
+        i += 1
+    return login
+def generuj_haslo(dlugosc=8):
+    znaki = string.ascii_letters + string.digits
+    return ''.join(random.choice(znaki) for _ in range(dlugosc))
+def hash_hasla(haslo):
+    return hashlib.sha256(haslo.encode()).hexdigest()
+def pokaz_dane_logowania(login, haslo):
+    win = ctk.CTkToplevel(root)
+    win.geometry("350x200")
+    win.title("Dane logowania")
+    ctk.CTkLabel(win, text="Login:", font=("Segoe UI", 16)).pack(pady=5)
+    ctk.CTkLabel(win, text=login, font=("Segoe UI", 18, "bold")).pack(pady=5)
+    ctk.CTkLabel(win, text="Hasło:", font=("Segoe UI", 16)).pack(pady=5)
+    ctk.CTkLabel(win, text=haslo, font=("Segoe UI", 18, "bold")).pack(pady=5)
+    ctk.CTkButton(win, text="OK", command=win.destroy).pack(pady=10)
 #przycisk do dodawania ludzi
 ctk.CTkButton(
     root,
